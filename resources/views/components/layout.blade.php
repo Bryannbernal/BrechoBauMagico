@@ -9,11 +9,13 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    @vite(['resources/css/app.css'])
+    @vite([
+    'resources/css/app.css',
+    'resources/js/app.js'
+    ])
 </head>
 
 <body>
-    <script src="{{ asset('script.js') }}"></script>
     <header>
         <h1>Baú Mágico</h1>
         <p>Brechó e Afins</p>
@@ -56,7 +58,6 @@
 
     </main>
     <footer>© 2026 Baú Mágico • Brechó e Afins</footer>
-    <script src="{{ asset('script.js') }}"></script>
 </body>
 
 </html>

@@ -51,24 +51,20 @@ function atualizarStatus() {
 atualizarStatus();
 
 function menu() {
-    const btn = document.getElementById("btn-menu");
     const sidebar = document.getElementById("sidebar");
-
-    btn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-    });
+    sidebar.classList.toggle("open");
 }
 
 function mostrarSenha() {
     const senha = document.getElementById("senha");
     const botao = document.getElementById("btn-senha");
-    console.log('MEO.')
+    console.log("MEO.");
 
     if (senha.type === "password") {
         senha.type = "text";
-        botao.textContent = "x";
+        botao.textContent = "👁";
     } else {
         senha.type = "password";
-        botao.textContent = "x";
+        botao.textContent = "⌣";
     }
 }

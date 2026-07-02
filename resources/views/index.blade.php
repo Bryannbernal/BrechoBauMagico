@@ -4,7 +4,7 @@
     <p style="font-size: 1.5rem; color: var(--texto);">"Cada peça possui uma história única e um encanto especial."</p>
     <br>
     <button class="btn-magico">
-      <a style="font-size:1.2rem;" href="/catalogo">Ver catalogo</a>
+      <a style="font-size:1.1rem; text-decoration: none; color: inherit;" href="/catalogo">Ver catalogo</a>
     </button>
   </section>
 

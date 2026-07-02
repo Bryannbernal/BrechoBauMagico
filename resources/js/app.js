@@ -1,12 +1,12 @@
-function abrirCard(id) {
+window.abrirCard = function (id) {
     document.getElementById(id).classList.add("ativo");
-}
+};
 
-function fecharCard(id) {
+window.fecharCard = function (id) {
     document.getElementById(id).classList.remove("ativo");
-}
+};
 
-function verificarLojaAberta() {
+window.verificarLojaAberta = function () {
     const agora = new Date();
 
     const dia = agora.getDay();
@@ -34,9 +34,9 @@ function verificarLojaAberta() {
     }
 
     return aberta;
-}
+};
 
-function atualizarStatus() {
+window.atualizarStatus = function () {
     const status = document.getElementById("status-loja");
 
     if (verificarLojaAberta()) {
@@ -46,16 +46,18 @@ function atualizarStatus() {
         status.innerHTML = "Agora o brechó está: 🌙 FECHADO";
         status.style.color = "#c27b95";
     }
-}
+};
 
-atualizarStatus();
+document.addEventListener("DOMContentLoaded", () => {
+    atualizarStatus();
+});
 
-function menu() {
+window.menu = function () {
     const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("open");
-}
+};
 
-function mostrarSenha() {
+window.mostrarSenha = function () {
     const senha = document.getElementById("senha");
     const botao = document.getElementById("btn-senha");
     console.log("MEO.");
@@ -67,4 +69,4 @@ function mostrarSenha() {
         senha.type = "password";
         botao.textContent = "⌣";
     }
-}
+};

@@ -23,7 +23,7 @@
                 <input
                     type="number"
                     name="preco"
-                    step="05.00"
+                    step="00.10"
                     placeholder="00,00">
             </label>
             <label>

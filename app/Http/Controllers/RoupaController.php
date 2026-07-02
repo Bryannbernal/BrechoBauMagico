@@ -34,8 +34,7 @@ class RoupaController extends Controller
             'preco' => 'nullable|numeric|min:0',
         ]);
 
-        //$cloudinary = new CloudinaryService();
-        dd(class_exists(\App\Services\CloudinaryService::class));
+        $cloudinary = new CloudinaryService();
 
         $upload = $cloudinary->upload(
             $request->file('foto')

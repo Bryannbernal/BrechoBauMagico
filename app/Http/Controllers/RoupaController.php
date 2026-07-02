@@ -34,7 +34,7 @@ class RoupaController extends Controller
             'preco' => 'nullable|numeric|min:0',
         ]);
 
-        $cloudinary = new \App\Services\CloudinaryService();
+        $cloudinary = new \app\services\CloudinaryService();
 
         $upload = $cloudinary->upload(
             $request->file('foto')
@@ -66,7 +66,7 @@ class RoupaController extends Controller
             'preco' => 'nullable|numeric|min:0',
         ]);
 
-        $cloudinary = new \App\Services\CloudinaryService();
+        $cloudinary = new \app\services\CloudinaryService();
 
         if ($request->hasFile('foto')) {
 
@@ -110,7 +110,7 @@ class RoupaController extends Controller
         $roupa = Roupa::findOrFail($id);
 
         if ($roupa->foto_public_id) {
-            $cloudinary = new \App\Services\CloudinaryService();
+            $cloudinary = new \app\services\CloudinaryService();
             $cloudinary->destroy($roupa->foto_public_id);
         }
 

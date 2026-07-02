@@ -29,3 +29,12 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/login', [LoginController::class, 'autenticar']);
 Route::get('/sair', [LoginController::class, 'sair']);
 //Route::post('/cadastro', [LoginController::class, 'cadastrar']);
+
+//ROTA TEMPORARIA
+
+Route::get('/teste-cloudinary', function () {
+    return [
+        app_path('Services/CloudinaryService.php'),
+        file_exists(app_path('Services/CloudinaryService.php')),
+    ];
+});

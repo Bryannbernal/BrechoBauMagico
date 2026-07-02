@@ -12,7 +12,7 @@
       <hr>
 
       <img class="fotoRoupa"
-        src="{{ asset('storage/' . $roupa->foto) }}"
+        src="{{ $roupa->foto }}"
         alt="{{ $roupa->tipo }}">
 
       <div class="dados-roupa">

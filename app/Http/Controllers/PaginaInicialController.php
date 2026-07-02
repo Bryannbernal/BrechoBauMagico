@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Roupa;
+use App\Services\CloudinaryService;
 
 class PaginaInicialController extends Controller
 {

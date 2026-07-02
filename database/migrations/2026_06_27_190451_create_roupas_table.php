@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('tamanho', 200)->nullable();
             $table->boolean('situacao');
             $table->decimal('preco', 8, 2);
+            $table->string('foto_public_id')->nullable()->after('foto');
         });
     }
 

@@ -7,6 +7,7 @@ use App\Models\Roupa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Services\CloudinaryService;
 
 class RoupaController extends Controller
 {
@@ -33,12 +34,65 @@ class RoupaController extends Controller
             'preco' => 'nullable|numeric|min:0',
         ]);
 
+        $cloudinary = new CloudinaryService();
+
+        $upload = $cloudinary->upload(
+            $request->file('foto')
+        );
+
         Roupa::create([
             'tipo' => $request->tipo,
-            'foto' => $request->file('foto')->store('img', 'public'),
+            'foto' => $upload['url'],
+            'foto_public_id' => $upload['public_id'],
             'marca' => $request->marca,
             'tamanho' => $request->tamanho,
             'situacao' => true,
+            'preco' => $request->preco,
+        ]);
+
+        return redirect('/roupas');
+    }
+
+    public function update(Request $request)
+    {
+        $roupa = Roupa::findOrFail($request->id);
+
+        $request->validate([
+            'tipo' => 'nullable|string|max:50',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'marca' => 'nullable|string|max:50',
+            'tamanho' => 'nullable|string|max:50',
+            'situacao' => 'nullable|boolean',
+            'preco' => 'nullable|numeric|min:0',
+        ]);
+
+        $cloudinary = new CloudinaryService();
+
+        if ($request->hasFile('foto')) {
+
+            if ($roupa->foto_public_id) {
+                $cloudinary->destroy($roupa->foto_public_id);
+            }
+
+            $upload = $cloudinary->upload(
+                $request->file('foto')
+            );
+
+            $foto = $upload['url'];
+            $fotoPublicId = $upload['public_id'];
+        } else {
+
+            $foto = $roupa->foto;
+            $fotoPublicId = $roupa->foto_public_id;
+        }
+
+        $roupa->update([
+            'tipo' => $request->tipo,
+            'foto' => $foto,
+            'foto_public_id' => $fotoPublicId,
+            'marca' => $request->marca,
+            'tamanho' => $request->tamanho,
+            'situacao' => $request->situacao,
             'preco' => $request->preco,
         ]);
 
@@ -51,57 +105,17 @@ class RoupaController extends Controller
         return view('roupas.edit', ['roupa' => $roupa]);
     }
 
-    public function update(Request $request)
+    public function destroy($id)
     {
-        $roupa = Roupa::findOrFail($request->id);
+        $roupa = Roupa::findOrFail($id);
 
-        $request->validate([
-            'tipo' => 'nullable|string|max:50',
-            'foto' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'marca' => 'nullable|string|max:50',
-            'tamanho' => 'nullable|string|max:50',
-            'situacao' => 'nullable|boolean',
-            'preco' => 'nullable|numeric|min:0',
-        ]);
-
-        // Mantém a imagem atual
-        $foto = $request->foto;
-
-        // Se enviou uma nova imagem
-        if ($request->hasFile('foto')) {
-
-            // Exclui a antiga (caso exista)
-            if ($roupa->foto && Storage::disk('public')->exists($roupa->foto)) {
-                Storage::disk('public')->delete($roupa->foto);
-            }
-
-            // Salva a nova
-            $foto = $request->file('foto')->store('img', 'public');
-        }
-
-        $roupa->update([
-            'tipo' => $request->tipo,
-            'foto' => $foto,
-            'marca' => $request->marca,
-            'tamanho' => $request->tamanho,
-            'situacao' => $request->situacao,
-            'preco' => $request->preco,
-        ]);
-
-        return redirect('/roupas');
-    }
-
-    public function destroy(Request $request)
-    {
-        //PROCESSO PARA EXCLUIR ARQUIVO DE foto DA PASTA DO PROJETO
-        $roupa = roupa::findOrFail($request->id);
-
-        if ($roupa->foto && Storage::disk('public')->exists($roupa->foto)) {
-            Storage::disk('public')->delete($roupa->foto);
+        if ($roupa->foto_public_id) {
+            $cloudinary = new CloudinaryService();
+            $cloudinary->destroy($roupa->foto_public_id);
         }
 
         $roupa->delete();
-        roupa::destroy($request->id);
+
         return redirect('/roupas');
     }
 }
